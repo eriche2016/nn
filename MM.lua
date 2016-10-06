@@ -28,6 +28,9 @@ function MM:updateOutput(input)
     if self.transB then b = b:t() end
     assert(a:size(2) == b:size(1), 'matrix sizes do not match')
 
+     -- a: a_h x s 
+     -- b: s x b_w 
+     -- self.output:  a_h x b_w 
     self.output:resize(a:size(1), b:size(2))
     self.output:mm(a, b)
   else
@@ -38,6 +41,9 @@ function MM:updateOutput(input)
     if self.transB then b = b:transpose(2, 3) end
     assert(a:size(3) == b:size(2), 'matrix sizes do not match')
 
+    -- a: bz x a_h x w 
+    -- b: bz x w x b_h
+    -- self.output: bz x a_h x b_h 
     self.output:resize(a:size(1), a:size(2), b:size(3))
     self.output:bmm(a, b)
   end
