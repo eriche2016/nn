@@ -122,13 +122,19 @@ void THNN_(SpatialFullConvolution_updateOutput)(
   // For each elt in batch, do:
   for (elt = 0; elt < batchSize; elt ++) {
     // Matrix mulitply per output:
-    THTensor_(select)(input_n, input, 0, elt);
+    // input_n: nInputPlane * inputHeight * inputWidth 
+    THTensor_(select)(input_n, input, 0, elt);  
+    // output_n: nOutputPlane * outputHeight * outputWidth
     THTensor_(select)(output_n, output, 0, elt);
 
     // M,N,K are dims of matrix A and B
     // (see http://docs.nvidia.com/cuda/cublas/#cublas-lt-t-gt-gemm)
-    long m = weight->size[1] * weight->size[2] * weight->size[3];
+    
+    // m = nOutputPlane * KH * kW 
+    long m = weight->size[1] * weight->size[2] * weight->size[3]; 
+    // n = nOutputPlane * KH * KW 
     long n = columns->size[1];
+    // k = nInputPlane
     long k = weight->size[0];
 
     // Do GEMM (note: this is a bit confusing because gemm assumes column-major matrices)
