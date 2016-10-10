@@ -122,9 +122,9 @@ void THNN_(SpatialFullConvolution_updateOutput)(
   // For each elt in batch, do:
   for (elt = 0; elt < batchSize; elt ++) {
     // Matrix mulitply per output:
-    // input_n: nInputPlane * inputHeight * inputWidth 
+    // input_n: nInputPlane x inputHeight x inputWidth 
     THTensor_(select)(input_n, input, 0, elt);  
-    // output_n: nOutputPlane * outputHeight * outputWidth
+    // output_n: nOutputPlane x outputHeight x outputWidth
     THTensor_(select)(output_n, output, 0, elt);
 
     // M,N,K are dims of matrix A and B
